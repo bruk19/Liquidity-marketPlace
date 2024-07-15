@@ -87,4 +87,8 @@ contract LiquidityMarketPlace {
     tokenHolderInfo._tokenHolder
   )
  }
+
+ function getTokenHolder() public view returns(address[] memory) {
+  return holderToken;
+ }
 }
