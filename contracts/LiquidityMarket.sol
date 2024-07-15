@@ -13,6 +13,8 @@ contract LiquidityMarketPlace {
   event transfer (address indexed _from, address indexed _to, uint256 _amount);
   event approval (address indexed _owner, address indexed _spender, uint256 _amount);
 
+  error NotHaveEnoughBalance();
+
   struct tokenHolderInfo {
     uint256 _tokeId;
     address _from;
@@ -29,6 +31,31 @@ contract LiquidityMarketPlace {
     ownerOfContract = msg.sender;
     balanceOf[msg.sender] = _initialSupply;
     totalSupply = _initialSupply;
+  }
+
+  function inc() internal {
+    userId++;
+  }
+
+  function transfer(address _to, uint256 _value) public returns(bool success) {
+    if(balanceOf[msg.sender] >= _value) revert NotHaveEnoughBalance();
+    inc();
+
+    balanceOf[msg.sender] -=_value;
+    balanceOf[_to] +=_value;
+
+    tokenHolderInfo storage tokenInfo = tokenHolderInformations[_to];
+
+    tokenInfo._tokeId = userId;
+    tokenInfo._from = msg.sender;
+    tokenInfo._to = _to;
+    tokenInfo._totalToken =  _value;
+    tokenInfo._tokenHolder = true;
+
+    holderToken.push(_to)
+
+    emit transfer(msg.sender, _to, _value);
+    return true;
   }
  
 }
