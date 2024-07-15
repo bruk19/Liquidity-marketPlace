@@ -77,4 +77,14 @@ contract LiquidityMarketPlace {
   emit transfer(_from, _to, _value)
   return true;
  }
+
+ function getTokenHolderData(address _address) public view returns(uint256, address, address, uint256, bool) {
+  return (
+    tokenHolderInfo._tokeId;
+    tokenHolderInfo._from;
+    tokenHolderInfo._to;
+    tokenHolderInfo._totalToken
+    tokenHolderInfo._tokenHolder
+  )
+ }
 }
