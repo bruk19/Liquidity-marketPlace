@@ -14,6 +14,7 @@ contract LiquidityMarketPlace {
   event approval (address indexed _owner, address indexed _spender, uint256 _amount);
 
   error NotHaveEnoughBalance();
+  error NotApprovedValue();
 
   struct tokenHolderInfo {
     uint256 _tokeId;
@@ -38,7 +39,7 @@ contract LiquidityMarketPlace {
   }
 
   function transfer(address _to, uint256 _value) public returns(bool success) {
-    if(balanceOf[msg.sender] >= _value) revert NotHaveEnoughBalance();
+    if(balanceOf[msg.sender] <= _value) revert NotHaveEnoughBalance();
     inc();
 
     balanceOf[msg.sender] -=_value;
@@ -62,6 +63,18 @@ contract LiquidityMarketPlace {
   allowance[msg.sender][_spender] = _value;
 
   emit approval(msg.sender, _spender, _value)
+  return true;
+ }
+
+ function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
+  if(_value >= balanceOf[_from]) NotHaveEnoughBalance();
+  if((_value >= allowance[_from][msg.sender]) NotApprovedValue();
+
+  balanceOf[_from] -=_value;
+  balanceOf[_to] -=_to;
+  allowance[_from][msg.sender] -=_value;
+
+  emit transfer(_from, _to, _value)
   return true;
  }
 }
