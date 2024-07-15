@@ -8,7 +8,7 @@ contract LiquidityMarketPlace {
   uint256 public totalSupply;
   address public ownerOfContract;
   uint256 public userId;
-  address[] public holderToken;
+  address[] public holderToken;   
 
   event transfer (address indexed _from, address indexed _to, uint256 _amount);
   event approval (address indexed _owner, address indexed _spender, uint256 _amount);
@@ -20,4 +20,15 @@ contract LiquidityMarketPlace {
     uint256 _totalToken;
     bool _tokenHolder;
   }
+
+  mapping (address => tokenHolderInfo) public tokenHolderInformations;
+  mapping (address => uint256) public balanceOf;
+  mapping (address => mapping (address => uint256)) public allowance;
+
+  constructor (uint256 _initialSupply) {
+    ownerOfContract = msg.sender;
+    balanceOf[msg.sender] = _initialSupply;
+    totalSupply = _initialSupply;
+  }
+ 
 }
