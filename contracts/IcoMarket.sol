@@ -15,5 +15,9 @@ contract IcoMarket {
     tokenContract = _tokenContract;
     tokenPrice = _tokenPrice;
   }
+
+  function multiply(uint256 x, uint256 y) internal pure returns(uint256 z) {
+    require(y==0 || (z = x *y ) / x == y)
+  }
   
   }
