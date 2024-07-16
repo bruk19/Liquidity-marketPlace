@@ -19,5 +19,14 @@ contract IcoMarket {
   function multiply(uint256 x, uint256 y) internal pure returns(uint256 z) {
     require(y==0 || (z = x *y ) / x == y)
   }
-  
+
+  function buyTokens(uint256 _numberOfTokens) public payable {
+    require(msg.value == multiply(_numberOfTokens, tokenPrice));
+    require(tokenContract.balanceOf(address(this)) >= _numberOfTokens)
+    require(tokenContract.transfer(msg.sender, _numberOfTokens * 1000000000000000000));
+
+    tokenSold += _numberOfTokens;
+    emit sell(msg.sender, _numberOfTokens)
+  }
+
   }
