@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 contract Liquidity {
 
   error YourAreNotAdmin();
+  error CanotSendZeroAmount();
 
   address public admin;
   uint256 public liquidityId;
@@ -58,5 +59,12 @@ contract Liquidity {
 
   function getAllLiquidity(address _address) public view returns(liquidityInfo[] memory) {
     return liquidities[_address];
+  }
+
+  function transferEther() external payable {
+    if(msg.value <= 0) revert CanotSendZeroAmount();
+
+    (bool success, ) = admin.call{value: msg.value}("");
+    require(success, "Transfer failed")
   }
 }
