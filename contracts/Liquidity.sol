@@ -55,4 +55,8 @@ contract Liquidity {
       timeCreated: block.timestamp;
     }))
   }
+
+  function getAllLiquidity(address _address) public view returns(liquidityInfo[] memory) {
+    return liquidities[_address];
+  }
 }
