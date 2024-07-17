@@ -24,4 +24,8 @@ contract Liquidity {
   modifier  onlyAdmin {
     if(admin !== msg.sender) revert YourAreNotAdmin;
   }
+
+  constructor() {
+    admin = msg.sender;
+  } 
 }
