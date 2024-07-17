@@ -1,7 +1,7 @@
 import {ethers} from "hardhat"
 
 const tokens = (nToken: string | number) => {
-  return ethers.parseUnits(nToken.toString(), "ethers")
+  return ethers.parseUnits(nToken.toString(), "ether")
 }
 
 async function main() {
@@ -14,15 +14,15 @@ async function main() {
   //Ico Market
   const _tokenPrice = tokens(0.0001)
   const IcoMarket = await ethers.getContractFactory("IcoMarket");
-  const icoMarket = await IcoMarket.deploy(_tokenPrice)
+  const icoMarket = await IcoMarket.deploy(liquidityMarket.target, _tokenPrice)
 
-  console.log("IcoMarket Contract deploye to", icoMarket.target);
+  console.log("IcoMarket Contract deploye to:", icoMarket.target);
 
   //Iquidity
   const Liquidity = await ethers.getContractFactory("Liquidity");
   const liquidity = await Liquidity.deploy()
 
-  console.log("Liquidity contract deployed to", liquidity.target)
+  console.log("Liquidity contract deployed to:", liquidity.target)
 }
 
 main()

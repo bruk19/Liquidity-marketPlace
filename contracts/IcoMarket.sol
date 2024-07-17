@@ -34,6 +34,6 @@ contract IcoMarket {
     if(admin != msg.sender) revert YourAreNotAdmin();
     require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))));
 
-    payable(admin).transfer(address(this).balace);
+    payable(admin).transfer(address(this).balance);
   }
   }
