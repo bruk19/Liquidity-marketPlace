@@ -9,6 +9,7 @@ contract IcoMarket {
   uint256 public tokenSold;
 
   event sell(address _buyer, uint256 _amount)
+  error YourAreNotAdmin();
 
   constructor(LiquidityMarket _tokenContract, uint256 _tokenPrice) {
     admin = msg.sender;
@@ -29,4 +30,10 @@ contract IcoMarket {
     emit sell(msg.sender, _numberOfTokens)
   }
 
+  function endSale() public {
+    if(admin !== msg.sender) revert YourAreNotAdmin();
+    require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))));
+
+    payable(admin).transfer(address(this).balace);
+  }
   }
