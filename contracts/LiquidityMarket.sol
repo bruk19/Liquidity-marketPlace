@@ -10,14 +10,14 @@ contract LiquidityMarket {
   uint256 public userId;
   address[] public holderToken;   
 
-  event transfer (address indexed _from, address indexed _to, uint256 _amount);
+  event _transfer (address indexed _from, address indexed _to, uint256 _amount);
   event approval (address indexed _owner, address indexed _spender, uint256 _amount);
 
   error NotHaveEnoughBalance();
   error NotApprovedValue();
 
   struct tokenHolderInfo {
-    uint256 _tokeId;
+    uint256 _tokenId;
     address _from;
     address _to;
     uint256 _totalToken;
@@ -47,45 +47,46 @@ contract LiquidityMarket {
 
     tokenHolderInfo storage tokenInfo = tokenHolderInformations[_to];
 
-    tokenInfo._tokeId = userId;
+    tokenInfo._tokenId = userId;
     tokenInfo._from = msg.sender;
     tokenInfo._to = _to;
     tokenInfo._totalToken =  _value;
     tokenInfo._tokenHolder = true;
 
-    holderToken.push(_to)
+    holderToken.push(_to);
 
-    emit transfer(msg.sender, _to, _value);
+    emit _transfer(msg.sender, _to, _value);
     return true;
   }
  
  function approve(address _spender, uint256 _value) public returns(bool success) {
   allowance[msg.sender][_spender] = _value;
 
-  emit approval(msg.sender, _spender, _value)
+  emit approval(msg.sender, _spender, _value);
   return true;
  }
 
  function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
-  if(_value >= balanceOf[_from]) NotHaveEnoughBalance();
-  if((_value >= allowance[_from][msg.sender]) NotApprovedValue();
+  if(_value >= balanceOf[_from]) revert  NotHaveEnoughBalance();
+  if((_value >= allowance[_from][msg.sender])) revert NotApprovedValue();
 
   balanceOf[_from] -=_value;
-  balanceOf[_to] -=_to;
+  balanceOf[_to] +=_value;
   allowance[_from][msg.sender] -=_value;
 
-  emit transfer(_from, _to, _value)
+  emit _transfer(_from, _to, _value);
   return true;
  }
 
  function getTokenHolderData(address _address) public view returns(uint256, address, address, uint256, bool) {
+  tokenHolderInfo storage tokenInfo = tokenHolderInformations[_address];
   return (
-    tokenHolderInfo._tokeId;
-    tokenHolderInfo._from;
-    tokenHolderInfo._to;
-    tokenHolderInfo._totalToken
-    tokenHolderInfo._tokenHolder
-  )
+    tokenInfo._tokenId,
+    tokenInfo._from,
+    tokenInfo._to,
+    tokenInfo._totalToken,
+    tokenInfo._tokenHolder
+  );
  }
 
  function getTokenHolder() public view returns(address[] memory) {
