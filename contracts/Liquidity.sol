@@ -3,6 +3,8 @@ pragma solidity ^0.8.24;
 
 contract Liquidity {
 
+  error YourAreNotAdmin();
+
   address public admin;
   uint256 public liquidityId;
 
@@ -17,5 +19,9 @@ contract Liquidity {
     string network;
     string transactionHash;
     uint256 timeCreated;
+  }
+
+  modifier  onlyAdmin {
+    if(admin !== msg.sender) revert YourAreNotAdmin;
   }
 }
