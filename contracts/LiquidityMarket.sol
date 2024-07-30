@@ -2,13 +2,16 @@
 pragma solidity ^0.8.24;
 
 contract LiquidityMarket {
-  string public name;
-  string public symbol; 
-  string public standard;
+  string public name = "Bir";
+  string public symbol = "BIR"; 
+  string public standard = "Bir v.0.1";
   uint256 public totalSupply;
   address public ownerOfContract;
   uint256 public userId;
   address[] public holderToken;   
+
+  uint8 public constant decimals = 18;
+  uint256 public constant DECIMAL_FACTOR = 10 ** uint256(decimals);
 
   event _transfer (address indexed _from, address indexed _to, uint256 _amount);
   event approval (address indexed _owner, address indexed _spender, uint256 _amount);
@@ -30,8 +33,8 @@ contract LiquidityMarket {
 
   constructor (uint256 _initialSupply) {
     ownerOfContract = msg.sender;
-    balanceOf[msg.sender] = _initialSupply;
-    totalSupply = _initialSupply;
+    balanceOf[msg.sender] = _initialSupply * DECIMAL_FACTOR;
+    totalSupply = _initialSupply * DECIMAL_FACTOR;
   }
 
   function inc() internal {
